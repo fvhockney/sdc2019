@@ -1,0 +1,37 @@
+{
+    "name": "sdc-2019",
+    "version": "0.1.0",
+    "description": "Web application of the 2019 SDC",
+    "scripts": {
+        "lint": "npx eslint --rule 'vue/html-indent: off' --fix --fix-type layout src/js/**",
+        "serve": "node server/server.js",
+        "build": "webpack --config webpack.config.js --mode=production --env.production --progress",
+        "dev-build": "webpack --config webpack.config.js --mode=development --progress",
+        "watch": "webpack --config webpack.config.js --mode=development --watch --info-verbosity verbose --progress",
+        "watch-poll": "webpack --config webpack.config.js --mode=development --watch --poll 1000 --info-verbosity verbose --progress",
+        "bundleSide": "webpack --config webpack.config.js --mode=production --env.production --env.analyze --progress"
+    },
+    "liscense": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.5.4",
+        "@babel/preset-env": "^7.5.4",
+        "babel-jest": "^24.8.0",
+        "babel-loader": "^8.0.6",
+        "eslint-config-lauteslint": "git+ssh://git@git.laut.ag:10022/laut.fm/ESlint.git",
+        "jest": "^24.8.0",
+        "lauteditorconfig": "git+ssh://git@git.laut.ag:10022/laut.fm/editorconfig.git",
+        "webpack-config-lautfm": "git+ssh://git@git.laut.ag:10022/laut.fm/webpack.git"
+    },
+    "dependencies": {
+        "@babel/polyfill": "^7.4.4",
+        "bootstrap": "^4.3.1",
+        "bootstrap-vue": "^2.0.0-rc.26",
+        "express": "^4.17.1",
+        "socket.io": "^2.2.0",
+        "vue": "^2.6.10",
+        "vue-router": "^3.0.7",
+        "vue-socket.io": "^3.0.7",
+        "vue-template-compiler": "^2.6.10",
+        "vuex": "^3.1.1"
+    }
+}

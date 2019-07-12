@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+    node:
+        container_name: sdcgoogle
+        build:
+            context: .
+            dockerfile: ./docker/Dockerfile
+        labels:
+            - "traefik.enable=true"
+            - "traefik.basic.fronten.rule=Host:sdcgoogle.verns.space"
+            - "traefik.backend=nodesdc"
+            - "traefik.frontend.rule=Host:sdcgoogle.verns.space"
+            - "traefik.docker.network=proxy"
+            - "traefik.port=8081"
+        working_dir: /home/node/app
+        user: node
+        expose:
+            - "8081"
+        networks:
+            - "proxy"
+        volumes:
+            - ./:/home/node/app
+        entrypoint: ./docker/entry.sh
+networks:
+    proxy:
+        external: true
