@@ -1,10 +1,8 @@
 "use strict";
 
-require("core-js/modules/es6.date.now");
-
 require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.number.constructor");
+require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
@@ -131,7 +129,7 @@ function () {
   var _ref3 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3(req, res) {
-    var _req$body, project, duration, data, db, name, _ref4;
+    var _req$body, project, duration, data, db, id, _ref4;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -144,7 +142,7 @@ function () {
           case 3:
             db = _context3.sent;
 
-            if (!(typeof Number(project) !== 'number')) {
+            if (!isNaN(project)) {
               _context3.next = 17;
               break;
             }
@@ -155,18 +153,16 @@ function () {
 
           case 8:
             _ref4 = _context3.sent;
-            name = _ref4.name;
+            id = _ref4.id;
             duration = _ref4.duration;
-            project = name;
+            project = id;
             _context3.next = 17;
             break;
 
           case 14:
             _context3.prev = 14;
             _context3.t0 = _context3["catch"](5);
-            res.json({
-              error: _context3.t0
-            });
+            res.status(500).end();
 
           case 17:
             if (project) {
@@ -204,9 +200,7 @@ function () {
           case 31:
             _context3.prev = 31;
             _context3.t1 = _context3["catch"](21);
-            res.json({
-              error: _context3.t1
-            });
+            res.status(500).end();
 
           case 34:
           case "end":
@@ -226,8 +220,7 @@ function () {
   var _ref5 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(req, res) {
-    var project, data, db, started, _ref6, name;
-
+    var project, data, db, started, row;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -240,8 +233,8 @@ function () {
             db = _context4.sent;
             started = Date.now();
 
-            if (!(typeof Number(project) !== 'number')) {
-              _context4.next = 17;
+            if (!isNaN(project)) {
+              _context4.next = 16;
               break;
             }
 
@@ -250,65 +243,60 @@ function () {
             return db.get('SELECT * FROM Projects where name = ?;', project);
 
           case 9:
-            _ref6 = _context4.sent;
-            name = _ref6.name;
-            project = name;
-            _context4.next = 17;
+            row = _context4.sent;
+            project = row.id;
+            _context4.next = 16;
             break;
 
-          case 14:
-            _context4.prev = 14;
+          case 13:
+            _context4.prev = 13;
             _context4.t0 = _context4["catch"](6);
-            res.json({
-              error: _context4.t0
-            });
+            res.status(500).end();
 
-          case 17:
+          case 16:
             if (project) {
-              _context4.next = 21;
+              _context4.next = 20;
               break;
             }
 
             res.json({
               error: 'no project'
             });
-            _context4.next = 34;
+            _context4.next = 33;
             break;
 
-          case 21:
-            _context4.prev = 21;
-            _context4.next = 24;
+          case 20:
+            _context4.prev = 20;
+            _context4.next = 23;
             return db.get('UPDATE Projects SET started = $started WHERE id = $id;', {
               $id: project,
               $started: started
             });
 
-          case 24:
-            _context4.next = 26;
+          case 23:
+            _context4.next = 25;
             return db.get('SELECT * FROM Projects where id = ?;', project);
 
-          case 26:
+          case 25:
             data = _context4.sent;
             io.emit('startProject', data);
             res.json({
               data: data
             });
-            _context4.next = 34;
+            _context4.next = 33;
             break;
 
-          case 31:
-            _context4.prev = 31;
-            _context4.t1 = _context4["catch"](21);
-            res.json({
-              error: _context4.t1
-            });
+          case 30:
+            _context4.prev = 30;
+            _context4.t1 = _context4["catch"](20);
+            res.status(500).end();
 
-          case 34:
+          case 33:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[6, 14], [21, 31]]);
+    }, _callee4, null, [[6, 13], [20, 30]]);
   }));
 
   return function (_x5, _x6) {
@@ -318,7 +306,7 @@ function () {
 app.post('/projects/add',
 /*#__PURE__*/
 function () {
-  var _ref7 = _asyncToGenerator(
+  var _ref6 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee5(req, res) {
     var db, data;
@@ -351,9 +339,7 @@ function () {
           case 13:
             _context5.prev = 13;
             _context5.t0 = _context5["catch"](0);
-            res.json({
-              error: _context5.t0
-            });
+            res.status(500).end();
 
           case 16:
           case "end":
@@ -364,7 +350,7 @@ function () {
   }));
 
   return function (_x7, _x8) {
-    return _ref7.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }());
 io.on('connection', function (socket) {

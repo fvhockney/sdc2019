@@ -17,7 +17,7 @@ class Api {
     }
 
     add ( project ) {
-        return this.instance.post( 'projects/new', { name: project } )
+        return this.instance.post( 'projects/add', { name: project } )
     }
 }
 

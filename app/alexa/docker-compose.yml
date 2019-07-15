@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+    node:
+        container_name: sdcalexa
+        build:
+            context: .
+            dockerfile: ./docker/Dockerfile
+        labels:
+            - "traefik.enable=true"
+            - "traefik.basic.fronten.rule=Host:sdcalexa.verns.space"
+            - "traefik.backend=nodesdcalexa"
+            - "traefik.frontend.rule=Host:sdcalexa.verns.space"
+            - "traefik.docker.network=proxy"
+            - "traefik.port=8083"
+        working_dir: /home/node/app
+        user: node
+        expose:
+            - "8083"
+        networks:
+            - "proxy"
+        volumes:
+            - ./:/home/node/app
+        entrypoint: ./docker/entry.sh
+networks:
+    proxy:
+        external: true
