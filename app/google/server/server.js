@@ -1,10 +1,6 @@
 require('regenerator-runtime/runtime')
 const express = require( 'express' )
 const bodyParser = require( 'body-parser' )
-const {
-    dialogflow,
-    actionssdk,
-} = require( 'actions-on-google' )
 const app = require( './lib/intentHandlers' ).app
 
 // Server

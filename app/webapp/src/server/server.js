@@ -41,13 +41,13 @@ app.post( '/projects/stop', async ( req, res ) => {
 	let { body: { project, duration }} = req
 	let data
 	const db = await dbPromise
-	if ( typeof Number( project ) !== 'number' ) {
+	if ( isNaN( project ) ) {
 		try {
-			let name;
-			( { name, duration } = await db.get( 'SELECT * FROM Projects where name = ?;', project ) )
-			project = name
+			let id;
+			( { id, duration } = await db.get( 'SELECT * FROM Projects where name = ?;', project ) )
+			project = id
 		} catch ( err ) {
-			res.json( { error: err } )
+			res.status( 500 ).end()
 		}
 	}
 	if ( !project ) {
@@ -62,7 +62,7 @@ app.post( '/projects/stop', async ( req, res ) => {
 			io.emit( 'stopProject', data )
 			res.json( { data } )
 		} catch ( err ) {
-			res.json( { error: err } )
+			res.status( 500 ).end()
 		}
 	}
 } )
@@ -72,12 +72,12 @@ app.post( '/projects/start', async ( req, res ) => {
 	let data
 	const db = await dbPromise
 	const started = Date.now()
-	if ( typeof Number( project ) !== 'number' ) {
+	if ( isNaN( project ) ) {
 		try {
-			const { name } = await db.get( 'SELECT * FROM Projects where name = ?;', project )
-			project = name
+			const row = await db.get( 'SELECT * FROM Projects where name = ?;', project )
+			project = row.id
 		} catch ( err ) {
-			res.json( { error: err } )
+			res.status( 500 ).end()
 		}
 	}
 	if ( !project ) {
@@ -92,7 +92,7 @@ app.post( '/projects/start', async ( req, res ) => {
 			io.emit( 'startProject', data )
 			res.json( { data } )
 		} catch ( err ) {
-			res.json( { error: err } )
+			res.status( 500 ).end()
 		}
 	}
 } )
@@ -105,7 +105,7 @@ app.post( '/projects/add', async ( req, res ) => {
 		io.emit( 'addNewProject', data )
 		res.json( { data } )
 	} catch ( err ) {
-		res.json( { error: err } )
+		res.status( 500 ).end()
 	}
 } )
 
