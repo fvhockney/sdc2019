@@ -22,6 +22,9 @@
 import NewProjectModal from 'Components/NewProjectModal.vue'
 import ProjectsTable from 'Components/ProjectsTable.vue'
 import SocketStatus from 'Components/SocketStatus.vue'
+import axios from 'axios'
+
+const api = axios.create( { baseURL: 'http://localhost:8082' } )
 
 export default {
 	name:       'Home',
@@ -33,54 +36,49 @@ export default {
 	data () {
 		return {
 			newProjectName: '',
-			projects: [
-				{ id: 1, name: 'test', duration: 2045, started: null },
-				{ id: 2, name: 'test2', duration: 45, started: Date.now() },
-			]
+			projects:       [],
 		}
+	},
+	created: async function () {
+		const { data } = await api.post( 'projects' )
+		this.projects = data
 	},
 	sockets: {
 		addNewProject: function ( data ) {
-			this.newProjectName = data
-			this.addProject()
-			this.newProjectName = ''
+			this.projects.splice( this.projects.length, 0, data )
 		},
 		startProject: function ( data ) {
-			const item = this.projects.find( pr => pr.id === Number( data ) )
-			this.setStarted( item )
+			const item = this.projects.find( pr => pr.id === Number( data.id ) )
+			item.started = data.started
 		},
 		stopProject: function ( data ) {
-			const item = this.projects.find( pr => pr.id === Number( data ) )
-			this.updateDuration( item )
+			const item = this.projects.find( pr => pr.id === Number( data.id ) )
+			item.duration = data.duration
+			item.started = data.started
 		},
 		removeProject: function ( data ) {
 			this.projects.splice( data - 1, 1 )
-		},
-		activeProject: function () {
-			const items = this.projects.filter( pr => pr.started )
-			const data = items.map( it => {  return { id: it.id, name: it.name } } )
-			console.log( data )
 		},
 	},
 	methods: {
 		toggleActive: function ( index ) {
 			const item = this.projects[ index ]
-			console.log(item)
 			item.started ?  this.updateDuration( item ) : this.setStarted( item )
 		},
 		updateDuration: function ( item ) {
-			item.duration += Date.now() - item.started
-			item.started = null
+			api.post( 'projects/stop', {
+				project:  item.id,
+				duration: item.duration,
+			} )
 		},
 		setStarted: function ( item ) {
-			item.started = Date.now()
+			api.post( 'projects/start', {
+				project: item.id,
+			} )
 		},
 		addProject: function () {
-			this.projects.splice( this.projects.length, 0, {
-				id:       this.projects.length + 1,
-				name:     this.newProjectName,
-				duration: 0,
-				started:  null,
+			api.post( 'projects/add', {
+				name: this.newProjectName,
 			} )
 		},
 	},

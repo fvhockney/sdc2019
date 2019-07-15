@@ -3,4 +3,4 @@
 if [ ! -d "node_modules" ]; then
     npm i
 fi
-npm run build && npm run serve
+npm run build && node lib/server/server.js
