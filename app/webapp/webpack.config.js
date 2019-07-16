@@ -1,5 +1,5 @@
 const path = require( 'path' )
-const CleanWebpackPlugin = require( 'clean-webpack-plugin' )
+const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' )
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' )
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' )
 const TerserPlugin = require( 'terser-webpack-plugin' )
@@ -45,7 +45,7 @@ module.exports = ( env = {} ) => {
 		},
 		devtool: 'inline-source-map',
 		plugins: [
-			new CleanWebpackPlugin( [ 'public' ], { verbose: true } ),
+			new CleanWebpackPlugin( { verbose: true } ),
 			new MiniCssExtractPlugin( { filename: 'css/[name].css' } ),
 			new HtmlWebpackPlugin( {
 				template: 'src/html/index.html',
@@ -161,7 +161,7 @@ module.exports = ( env = {} ) => {
 	}
 
 	if ( isProd ) {
-		config.plugins.push( new CleanWebpackPlugin( [ 'public' ], { verbose: true } ) )
+		config.plugins.push( new CleanWebpackPlugin( { verbose: true } ) )
 	}
 
 	return config

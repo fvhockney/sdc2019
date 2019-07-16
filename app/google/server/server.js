@@ -1,7 +1,7 @@
 require('regenerator-runtime/runtime')
 const express = require( 'express' )
 const bodyParser = require( 'body-parser' )
-const app = require( './lib/intentHandlers' ).app
+const app = require( '../lib/intentHandlers' ).app
 
 // Server
 const server = express().use(bodyParser.json())

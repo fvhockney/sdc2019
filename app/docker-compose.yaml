@@ -20,7 +20,7 @@ services:
         networks:
             - "proxy"
         volumes:
-            - ./:home/node/app
+            - ./alexa:home/node/app
         entrypoint: ./docker/entry.sh
     sdcgoogle:
         container_name: sdcgoogle
@@ -41,7 +41,7 @@ services:
         networks:
             - "proxy"
         volumes:
-            - ./:home/node/app
+            - ./google:home/node/app
         entrypoint: ./docker/entry.sh
     sdcwebapp:
         container_name: sdcwebapp
@@ -62,7 +62,7 @@ services:
         networks:
             - "proxy"
         volumes:
-            - ./:home/node/app
+            - ./webapp:home/node/app
         entrypoint: ./docker/entry.sh
 networks:
     proxy:

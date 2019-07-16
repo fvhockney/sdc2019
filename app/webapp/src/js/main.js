@@ -9,7 +9,7 @@ import VSock from 'vue-socket.io'
 
 const Socket = new VSock( {
 	debug: true,
-	connection: 'localhost:8082',
+	connection: 'https://sdctimetracker.verns.space',
 	options: { reconnectionAttempts: 2 }
 } )
 
