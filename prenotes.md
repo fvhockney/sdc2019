@@ -14,6 +14,18 @@
 - [Sending your requested data to someone else](https://www.forbes.com/sites/kevinmurnane/2018/12/20/amazon-does-the-unthinkable-and-sends-alexa-recordings-to-the-wrong-person/)
 - [Arbitrarily invoking actions](https://qz.com/1288743/amazon-alexa-echo-spying-on-users-raises-a-data-privacy-problem/)
 
+## Other Resources
+
+- [ELIZA on the web](http://psych.fullerton.edu/mbirnbaum/psych101/Eliza.htm)
+- [Amazon Developer Console](https://developer.amazon.com/alexa/console/ask)
+- [Amazon Documentation](https://developer.amazon.com/docs/ask-overviews/build-skills-with-the-alexa-skills-kit.html)
+- [Amazon Alexa Github](https://developer.amazon.com/docs/ask-overviews/build-skills-with-the-alexa-skills-kit.html)
+- [Google Developer Console](https://console.actions.google.com/)
+- [Google Actions Documentation](https://developers.google.com/actions/overview)
+- [Google Central Reference for Actions - technical docs entry](https://developers.google.com/actions/reference/nodejsv2/overview)
+
+
+
 ## Topics to cover
 
 1. What is Voice
@@ -27,30 +39,34 @@
         3. wants to be an all in one assistant (trigger an action in your app, redirect to the web, smart home)
         4. natively integrated on virtually every android phone
         5. device handoff
+        6. Conversation Driven
     4. Amazon
         1. Pretty strict with the formulation of requests
         2. stays inside the Alexa app (No linking to the web)
         3. focuses on skills' abilities (doesn't trigger apps, doesn't redirect to web, but can control smart home)
         4. can integrate with phone
+        5. Action Driven
     5. Both
         1. Offer implicit and explicit invocations
         2. Support smart home controls
 4. High level overview of Google v. Amazon for devs
     1. Google
         1. offers java and javascript for building fulfilment SDK (and node integrations for dialogflow)
-        2. `gactions` commandline-tool, console fro managing skills
+        2. `gactions` commandline-tool, console for managing skills
         3. firebase for hosting (or host yourself)
         4. Alpha, Beta testing and multiple versions running at once
         5. dialogflow or sdk (sdk for more control over language processing)
         6. carry over data with `conv.data` (session), `user.data` (persistent), and `contexts` (sub-sessions)
         7. Documentation - Helpful, easily navigatable and readable w/examples + actual dev docs
+        8. Can train AI through dialogflow
     2. Amazon
         1. offers java, javascript, and python SDK
         2. `ASKCLI`, `SMAPI`, console for managing skills
         3. Lambda functions on AWS for hosting (or host yourself)
-        4. only sdk available (no integrations like dialogflow supported natively)
-        5. Documentation - Horrible, no true dev docs, navigation is difficult, not well structured
-        6. Developer must handle user storage on his end (database) via a `userId` (doesn't change between sessions)
+        4. Offers Beta Testing
+        5. only sdk available (no integrations like dialogflow supported natively)
+        6. Documentation - Horrible, no true dev docs, navigation is difficult, not well structured
+        7. Developer must handle user storage on his end (database) via a `userId` (doesn't change between sessions)
             - does provide a `sessionAttributes` for saving data during a conversation
     3. Both
         1. Offer ability to complete transactions (sell)
@@ -75,5 +91,5 @@ The apps are identical in functionality. The only difference is that one uses Ac
 1. Setting up the apps in the console
 2. Using the console to define commands
 3. Endpoint Requirements
-4. Setting up Endpoint fulfilment
+4. Setting up Endpoint fulfillment
 5. Demonstrate Apps

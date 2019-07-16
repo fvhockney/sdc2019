@@ -1,0 +1,69 @@
+version: '3'
+
+services:
+    sdcalexa:
+        container_name: sdcalexa
+        build:
+            context: ./alexa
+            dockerfile: ./docker/Dockerfile
+        labels:
+            - "traefik.enable=true"
+            - "traefik.basic.frontend.rule=Host:sdcalexa.verns.space"
+            - "trafik.backend=nodesdcalexa"
+            - "traefik.frontend.rule=Host:sdcalexa.verns.space"
+            - "traefik.docker.network=proxy"
+            - "traefik.port=8083"
+        working_dir: /home/node/app
+        user: node
+        expose:
+            - "8083"
+        networks:
+            - "proxy"
+        volumes:
+            - ./:home/node/app
+        entrypoint: ./docker/entry.sh
+    sdcgoogle:
+        container_name: sdcgoogle
+        build:
+            context: ./google
+            dockerfile: ./docker/Dockerfile
+        labels:
+            - "traefik.enable=true"
+            - "traefik.basic.frontend.rule=Host:sdcgoogle.verns.space"
+            - "trafik.backend=nodesdcgoogle"
+            - "traefik.frontend.rule=Host:sdcgoogle.verns.space"
+            - "traefik.docker.network=proxy"
+            - "traefik.port=8081"
+        working_dir: /home/node/app
+        user: node
+        expose:
+            - "8081"
+        networks:
+            - "proxy"
+        volumes:
+            - ./:home/node/app
+        entrypoint: ./docker/entry.sh
+    sdcwebapp:
+        container_name: sdcwebapp
+        build:
+            context: ./webapp
+            dockerfile: ./docker/Dockerfile
+        labels:
+            - "traefik.enable=true"
+            - "traefik.basic.frontend.rule=Host:sdctimetracker.verns.space"
+            - "trafik.backend=nodesdcgoogle"
+            - "traefik.frontend.rule=Host:sdctimetracker.verns.space"
+            - "traefik.docker.network=proxy"
+            - "traefik.port=8082"
+        working_dir: /home/node/app
+        user: node
+        expose:
+            - "8082"
+        networks:
+            - "proxy"
+        volumes:
+            - ./:home/node/app
+        entrypoint: ./docker/entry.sh
+networks:
+    proxy:
+        external: true
