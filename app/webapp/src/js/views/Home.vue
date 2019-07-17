@@ -56,9 +56,6 @@ export default {
 			item.duration = data.duration
 			item.started = data.started
 		},
-		removeProject: function ( data ) {
-			this.projects.splice( data - 1, 1 )
-		},
 	},
 	methods: {
 		toggleActive: function ( index ) {

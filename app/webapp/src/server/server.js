@@ -56,7 +56,6 @@ app.post( '/projects/stop', async ( req, res ) => {
 		res.json( { error: 'no project' } )
 	} else {
 		try {
-			console.log('started', started, 'now', Date.now())
 			duration += ( Date.now() - started )
 			await db.get( 'UPDATE Projects SET started = NULL, duration = $duration WHERE id = $id;', {
 				$id:       project,
