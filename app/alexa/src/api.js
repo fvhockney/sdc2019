@@ -4,7 +4,7 @@ import { config } from './config'
 class Api {
     constructor () {
         this.instance = axios.create( {
-            baseURL: config.apiendpoint
+            baseURL: 'https://sdctimetracker.verns.space'
         } )
     }
 

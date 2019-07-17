@@ -24,7 +24,7 @@ import ProjectsTable from 'Components/ProjectsTable.vue'
 import SocketStatus from 'Components/SocketStatus.vue'
 import axios from 'axios'
 
-const api = axios.create( { baseURL: 'https://sdctimetracker.verns.space } )
+const api = axios.create( { baseURL: 'https://sdctimetracker.verns.space' } )
 
 export default {
 	name:       'Home',
@@ -69,6 +69,7 @@ export default {
 			api.post( 'projects/stop', {
 				project:  item.id,
 				duration: item.duration,
+				started:  item.started,
 			} )
 		},
 		setStarted: function ( item ) {
