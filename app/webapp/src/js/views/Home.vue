@@ -24,7 +24,7 @@ import ProjectsTable from 'Components/ProjectsTable.vue'
 import SocketStatus from 'Components/SocketStatus.vue'
 import axios from 'axios'
 
-const api = axios.create( { baseURL: 'http://localhost:8082' } )
+const api = axios.create( { baseURL: 'https://sdctimetracker.verns.space } )
 
 export default {
 	name:       'Home',

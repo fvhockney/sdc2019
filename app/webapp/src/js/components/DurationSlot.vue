@@ -32,15 +32,16 @@ export default {
 	},
 	created: function () {
 		this.time = this.data.value
-		this.totalDuration()
-		clearInterval( this.timeoutId )
+		//this.totalDuration()
+		//clearInterval( this.timeoutId )
 	},
 	methods: {
 		totalDuration: function () {
+				const started = Date.now()
 			this.timeoutId = setInterval( () => {
 				let offset = 0
 				if ( this.data.item.started ) {
-					offset = Date.now() - this.data.item.started
+					offset = Math.abs( Date.now() - started )
 				}
 				this.time = this.data.value + offset
 			}, 2000 )

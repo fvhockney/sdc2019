@@ -10,7 +10,7 @@ const io = require( 'socket.io' )( server )
 
 const PORT = 8082
 const dbPromise = Promise.resolve()
-	.then( () => sqlite.open( '../database.sqlite' ) )
+	.then( () => sqlite.open( './database.sqlite' ) )
 	.then( db => db.migrate( { force: 'last' } ) )
 	.catch( err => console.error( err ) )
 
@@ -38,13 +38,15 @@ app.post( '/projects', async ( req, res ) => {
 } )
 
 app.post( '/projects/stop', async ( req, res ) => {
-	let { body: { project, duration }} = req
+	let project = req.body.project
+	let duration = req.body.duration
+	let started = req.body.started
 	let data
 	const db = await dbPromise
 	if ( isNaN( project ) ) {
 		try {
 			let id;
-			( { id, duration } = await db.get( 'SELECT * FROM Projects where name = ?;', project ) )
+			( { id, duration, started } = await db.get( 'SELECT * FROM Projects where name = ?;', project ) )
 			project = id
 		} catch ( err ) {
 			res.status( 500 ).end()
@@ -54,6 +56,8 @@ app.post( '/projects/stop', async ( req, res ) => {
 		res.json( { error: 'no project' } )
 	} else {
 		try {
+			console.log('started', started, 'now', Date.now())
+			duration += ( Date.now() - started )
 			await db.get( 'UPDATE Projects SET started = NULL, duration = $duration WHERE id = $id;', {
 				$id:       project,
 				$duration: duration,
@@ -68,7 +72,7 @@ app.post( '/projects/stop', async ( req, res ) => {
 } )
 
 app.post( '/projects/start', async ( req, res ) => {
-	let { body: { project }} = req
+	let project = req.body.project
 	let data
 	const db = await dbPromise
 	const started = Date.now()
